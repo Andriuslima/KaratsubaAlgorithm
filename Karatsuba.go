@@ -16,25 +16,24 @@ func mult(x, y string) string{
 		panic(error_u)
 	}
 
-	return string(u * v)
+	return strconv.Itoa(int(u * v))
 }
 
 func add(x, y string) string{
-	u, error_u := strconv.ParseUint(x, 10, 64)
-	v, error_v := strconv.ParseUint(y, 10, 64)
+	u, errorU:= strconv.ParseUint(x, 10, 64)
+	v, errorV := strconv.ParseUint(y, 10, 64)
 
-	if error_u != nil{
-		panic(error_u)
+	if errorU != nil{
+		panic(errorU)
 	}
-	if error_v != nil{
-		panic(error_u)
+	if errorV != nil{
+		panic(errorU)
 	}
 
-
-	return string(u + v)
+	return strconv.Itoa(int(u + v))
 }
 
-func minus(x, y string) string{
+func minus(x, y string) string {
 	u, error_u := strconv.ParseUint(x, 10, 64)
 	v, error_v := strconv.ParseUint(y, 10, 64)
 
@@ -45,7 +44,7 @@ func minus(x, y string) string{
 		panic(error_u)
 	}
 
-	return string(u - v)
+	return strconv.Itoa(int(u - v))
 }
 
 func Karatsuba(x, y string) string {
@@ -66,13 +65,13 @@ func Karatsuba(x, y string) string {
 
 	ac := Karatsuba(a, c)
 	bd := Karatsuba(b, d)
-	ad_bc := minus( minus( Karatsuba(add(a, b), add(c, d)) ,ac), bd)
+	aux := Karatsuba(add(a, b), add(c, d))
+	adbc := minus( minus(aux ,ac), bd)
 
-	fmt.Println(a,b,c,d, ac, bd, ad_bc)
+	fmt.Println(a,b,c,d, ac, bd, adbc)
 
-	return add(ac+fmt.Sprintf("%0*d", lenX-1, 0), add(ad_bc+fmt.Sprintf("%0*d", (lenX/2)-1, 0), bd))
-}
+	acShifted := ac+fmt.Sprintf("%0*d", lenX, 0)
+	adbcShifted := adbc +fmt.Sprintf("%0*d", (lenX/2), 0)
 
-func main(){
-	fmt.Println(Karatsuba("30", "10"))
+	return add(acShifted, add(adbcShifted, bd))
 }
