@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestKaratsuba(t *testing.T) {
+func TestSub(t *testing.T) {
 	testFile := os.Args[4]
 	fptr := flag.String("fpath", testFile, "file path to read from")
 	flag.Parse()
@@ -25,13 +25,14 @@ func TestKaratsuba(t *testing.T) {
 		check(errX)
 		check(errY)
 
-		res := x * y
-		kara, err := strconv.ParseInt(Karatsuba(args[0], args[1]), 10, 64)
+		expected := x - y
+		res, err := strconv.ParseInt(minus(strconv.Itoa(int(x)), strconv.Itoa(int(y))), 10, 64)
 		check(err)
-		if res != kara {
-			t.Errorf("Karatsuba (%d * %d) was incorrect, got: %d, want: %d.", x, y, kara, res)
+
+		if expected != res {
+			t.Errorf("Subtraction (%d + %d) was incorrect, got: %d, want: %d.", x, y, res, expected)
 		} else {
-			t.Logf("Karatsuba (%d * %d) correct, got: %d.", x, y, kara)
+			t.Logf("Subtraction (%d + %d) correct, got: %d", x, y, res)
 		}
 	}
 }
