@@ -1,9 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"strconv"
 )
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
 
 func mult(x, y string) string{
 	u, errorU := strconv.ParseUint(x, 10, 64)
@@ -20,17 +27,37 @@ func mult(x, y string) string{
 }
 
 func add(x, y string) string{
-	u, errorU:= strconv.ParseUint(x, 10, 64)
-	v, errorV := strconv.ParseUint(y, 10, 64)
+	x = fmt.Sprintf("%0*s", len(y), x)
+	y = fmt.Sprintf("%0*s", len(x), y)
 
-	if errorU != nil{
-		panic(errorU)
-	}
-	if errorV != nil{
-		panic(errorU)
+	fmt.Println(x)
+	fmt.Println(y)
+
+	var ans bytes.Buffer
+	carry := 0
+	sum := 0
+	for i := 0; i < len(x); i++ {
+		u, errx := strconv.ParseInt(string(x[i]), 10, 64)
+		v, erry := strconv.ParseInt(string(y[i]), 10, 64)
+		check(errx)
+		check(erry)
+
+		sum = int(u + v + int64(carry))
+		if sum < 10{
+			ans.WriteString( string(sum) )
+			carry = 0
+		} else {
+			ans.WriteString( string(sum%10) )
+			carry = 1
+		}
+		fmt.Println(ans)
 	}
 
-	return strconv.Itoa(int(u + v))
+	fmt.Println(sum)
+	fmt.Println(ans)
+	fmt.Println(carry)
+
+	return ans.String()
 }
 
 func minus(x, y string) string {

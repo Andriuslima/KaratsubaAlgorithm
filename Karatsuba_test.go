@@ -9,12 +9,6 @@ import (
 	"testing"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
 func TestKaratsuba(t *testing.T){
 	testFile := os.Args[2]
 	fptr := flag.String("fpath", testFile, "file path to read from")
