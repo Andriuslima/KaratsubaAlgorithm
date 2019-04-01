@@ -6,14 +6,14 @@ import (
 )
 
 func mult(x, y string) string{
-	u, error_u := strconv.ParseUint(x, 10, 64)
-	v, error_v := strconv.ParseUint(y, 10, 64)
+	u, errorU := strconv.ParseUint(x, 10, 64)
+	v, errorV := strconv.ParseUint(y, 10, 64)
 
-	if error_u != nil{
-		panic(error_u)
+	if errorU != nil{
+		panic(errorU)
 	}
-	if error_v != nil{
-		panic(error_u)
+	if errorV != nil{
+		panic(errorU)
 	}
 
 	return strconv.Itoa(int(u * v))
@@ -34,44 +34,51 @@ func add(x, y string) string{
 }
 
 func minus(x, y string) string {
-	u, error_u := strconv.ParseUint(x, 10, 64)
-	v, error_v := strconv.ParseUint(y, 10, 64)
+	u, errorU := strconv.ParseUint(x, 10, 64)
+	v, errorV := strconv.ParseUint(y, 10, 64)
 
-	if error_u != nil{
-		panic(error_u)
+	if errorU != nil{
+		panic(errorU)
 	}
-	if error_v != nil{
-		panic(error_u)
+	if errorV != nil{
+		panic(errorU)
 	}
 
 	return strconv.Itoa(int(u - v))
 }
 
 func Karatsuba(x, y string) string {
-	lenX := len(x)
-	lenY := len(y)
+	x = fmt.Sprintf("%0*s", len(y), x)
+	y = fmt.Sprintf("%0*s", len(x), y)
 
-	if lenX == 1 || lenY == 1{
-		return mult(x, y)
+	if len(x) != len(y){
+		msg := fmt.Sprintf("Wrong number format:x = %s\ny = %s", x, y)
+		panic(msg)
 	}
 
-	a := x[:uint8(lenX/2)]
-	b := x[uint8(lenX/2):]
+	n := len(x)
+	n2 := uint(n/2)
+	acShift := n
+	adbcShift := n2
+	if n % 2 != 0 {
+		acShift += 1
+		adbcShift += 1
+	}
 
-	c := y[:uint8(lenY/2)]
-	d := y[uint8(lenX/2):]
+	if n == 1{ return mult(x, y) }
 
-	fmt.Println(a, b, c, d)
+	a := x[:n2]
+	b := x[n2:]
+	c := y[:n2]
+	d := y[n2:]
 
 	ac := Karatsuba(a, c)
 	bd := Karatsuba(b, d)
 	aux := Karatsuba(add(a, b), add(c, d))
 	adbc := minus( minus(aux ,ac), bd)
 
-	fmt.Println(a,b,c,d, ac, bd, adbc)
-
-	acShifted := ac+fmt.Sprintf("%0*d", lenX, 0)
-	adbcShifted := adbc +fmt.Sprintf("%0*d", (lenX/2), 0)
+	acShifted := ac+fmt.Sprintf("%0*d", acShift, 0)
+	adbcShifted := adbc +fmt.Sprintf("%0*d", adbcShift, 0)
 
 	return add(acShifted, add(adbcShifted, bd))
 }
