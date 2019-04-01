@@ -26,13 +26,13 @@ func TestSub(t *testing.T) {
 		check(errY)
 
 		expected := x - y
-		res, err := strconv.ParseInt(minus(strconv.Itoa(int(x)), strconv.Itoa(int(y))), 10, 64)
+		result, err := strconv.ParseInt(minus(strconv.Itoa(int(x)), strconv.Itoa(int(y))), 10, 64)
 		check(err)
 
-		if expected != res {
-			t.Errorf("Subtraction (%d + %d) was incorrect, got: %d, want: %d.", x, y, res, expected)
+		if expected != result {
+			t.Errorf("Subtraction (%d + %d) was incorrect, got: %d, want: %d.", x, y, result, expected)
 		} else {
-			t.Logf("Subtraction (%d + %d) correct, got: %d", x, y, res)
+			t.Logf("Subtraction (%d + %d) correct, got: %d", x, y, result)
 		}
 	}
 }

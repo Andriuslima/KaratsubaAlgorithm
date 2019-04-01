@@ -26,13 +26,13 @@ func TestAdd(t *testing.T) {
 		check(errY)
 
 		expected := x + y
-		res, err := strconv.ParseInt(add(strconv.Itoa(int(x)), strconv.Itoa(int(y))), 10, 64)
+		result, err := strconv.ParseInt(add(strconv.Itoa(int(x)), strconv.Itoa(int(y))), 10, 64)
 		check(err)
 
-		if expected != res {
-			t.Errorf("Adition (%d + %d) was incorrect, got: %d, want: %d.", x, y, res, expected)
+		if expected != result {
+			t.Errorf("Adition (%d + %d) was incorrect, got: %d, want: %d.", x, y, result, expected)
 		} else {
-			t.Logf("Adition (%d + %d) correct, got: %d", x, y, res)
+			t.Logf("Adition (%d + %d) correct, got: %d", x, y, result)
 		}
 	}
 }
