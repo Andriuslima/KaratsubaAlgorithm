@@ -16,7 +16,8 @@ func check(e error) {
 }
 
 func TestKaratsuba(t *testing.T){
-	fptr := flag.String("fpath", "resources/t01.txt", "file path to read from")
+	testFile := os.Args[2]
+	fptr := flag.String("fpath", testFile, "file path to read from")
 	flag.Parse()
 
 	f, err := os.Open(*fptr)
@@ -30,7 +31,8 @@ func TestKaratsuba(t *testing.T){
 		check(errX); check(errY)
 
 		res := x * y
-		kara := Karatsuba(args[0], args[1])
+		kara, err := strconv.ParseInt(Karatsuba(args[0], args[1]), 10, 64)
+		check(err)
 		if res != kara{
 			t.Errorf("Karatsuba was incorrect, got: %d, want: %d.", kara, res)
 		}
